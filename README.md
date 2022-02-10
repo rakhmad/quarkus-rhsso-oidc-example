@@ -20,7 +20,8 @@ into your keycloak when creating new realm. There are 3 (three) users, `admin`, 
 
 To test your application, we need to retrieve access token for each user. We can test by using `curl`
 command.
-    > export access_token=$(\
+```
+    export access_token=$(\
     curl --insecure -X POST https://<KEYCLOAK_SERVER_URL>/auth/realms/quarkus/protocol/openid-connect/token \
     --user backend-service:secret \
     -H 'content-type: application/x-www-form-urlencoded' \
@@ -33,13 +34,15 @@ command.
     -H 'content-type: application/x-www-form-urlencoded' \
     -d 'username=admin&password=admin&grant_type=password' | jq --raw-output '.access_token' \
  )
+ ```
 
 After retrieving the tokens, we can test our API access:
-> curl -v -X GET \
+```
+curl -v -X GET \
   http://localhost:8080/api/users/me \
   -H "Authorization: Bearer "$access_token
- > curl -v -X GET \
+curl -v -X GET \
    http://localhost:8080/api/admin \
    -H "Authorization: Bearer "$admin_access_token"
-
+```
 For every authorized access, you will received HTTP 200 OK with some data.
